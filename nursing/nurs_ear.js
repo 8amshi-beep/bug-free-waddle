@@ -1,0 +1,23 @@
+/* BIOL 235 磨耳朵：医学句子（英+中） */
+var NURS_EAR_SENS = [
+{e:"Homeostasis keeps the body's internal environment stable.",c:"稳态维持身体内环境的稳定。",a:"audio/nurs/ear/sen01.mp3"},
+{e:"The anatomical position means standing upright with palms facing forward.",c:"解剖学标准姿势指直立、掌心向前。",a:"audio/nurs/ear/sen02.mp3"},
+{e:"The heart lies in the pericardial cavity, slightly to the left.",c:"心脏位于心包腔内，略偏左。",a:"audio/nurs/ear/sen03.mp3"},
+{e:"Negative feedback reverses changes to maintain balance.",c:"负反馈逆转变化以维持平衡。",a:"audio/nurs/ear/sen04.mp3"},
+{e:"The skin is the largest organ of the human body.",c:"皮肤是人体最大的器官。",a:"audio/nurs/ear/sen05.mp3"},
+{e:"Oxygen enters the blood through the thin walls of the alveoli.",c:"氧气经肺泡薄壁进入血液。",a:"audio/nurs/ear/sen06.mp3"},
+{e:"The brain is protected by the skull and three layers of meninges.",c:"脑由颅骨和三层脑膜保护。",a:"audio/nurs/ear/sen07.mp3"},
+{e:"Blood pressure is monitored by baroreceptors in the vessel walls.",c:"血压由血管壁中的压力感受器监测。",a:"audio/nurs/ear/sen08.mp3"},
+{e:"During childbirth, oxytocin strengthens uterine contractions.",c:"分娩时催产素加强子宫收缩。",a:"audio/nurs/ear/sen09.mp3"},
+{e:"The stomach churns food with three layers of smooth muscle.",c:"胃用三层平滑肌搅拌食物。",a:"audio/nurs/ear/sen10.mp3"},
+{e:"Nutrients travel from the digestive system into the bloodstream.",c:"营养物质从消化系统进入血液。",a:"audio/nurs/ear/sen11.mp3"},
+{e:"The diaphragm separates the thoracic cavity from the abdominal cavity.",c:"膈分隔胸腔和腹腔。",a:"audio/nurs/ear/sen12.mp3"},
+{e:"A radiograph shows dense bones as white and air-filled lungs as black.",c:"X 光片上致密的骨显白、含气的肺显黑。",a:"audio/nurs/ear/sen13.mp3"},
+{e:"Ultrasound is the safest imaging technique during pregnancy.",c:"超声是孕期最安全的影像技术。",a:"audio/nurs/ear/sen14.mp3"},
+{e:"The MRI produces high-contrast images of soft tissues.",c:"MRI 产生软组织高对比图像。",a:"audio/nurs/ear/sen15.mp3"},
+{e:"Symptoms are felt by the patient, while signs can be measured.",c:"症状是病人感受到的，体征可被测量。",a:"audio/nurs/ear/sen16.mp3"},
+{e:"The epigastric region contains most of the liver.",c:"上腹区容纳大部肝脏。",a:"audio/nurs/ear/sen17.mp3"},
+{e:"Auscultation means listening to body sounds with a stethoscope.",c:"听诊指用听诊器听身体声音。",a:"audio/nurs/ear/sen18.mp3"},
+{e:"Cells are the basic structural units of all living things.",c:"细胞是所有生物的基本结构单位。",a:"audio/nurs/ear/sen19.mp3"},
+{e:"Metabolism includes both catabolism and anabolism.",c:"新陈代谢包括分解代谢和合成代谢。",a:"audio/nurs/ear/sen20.mp3"},
+];
