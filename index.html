@@ -3,20 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Lexi · 护理预科与英语学习</title>
+<title>英语学习 · 护理预科</title>
+<meta name="apple-mobile-web-app-title" content="我要成功">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="stylesheet" href="kids.css">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   :root { --blue:#007AFF; --green:#34C759; --red:#FF3B30; --ink:#1C1C1E; --sub:#8E8E93;
-          --bg:#F2F2F7; --card:#fff; --hair:#E5E5EA; }
+          --bg:#F2F2F7; --card:#fff; --hair:#E5E5EA;
+          --glass:rgba(255,255,255,.55); --glass-brd:rgba(255,255,255,.65);
+          --glass-sh:0 8px 28px rgba(0,0,0,.07), inset 0 1px 0 rgba(255,255,255,.8);
+          --glass-sh-h:0 14px 40px rgba(0,0,0,.11), inset 0 1px 0 rgba(255,255,255,.9); }
   html,body { height:100%; }
   body { font-family:-apple-system,"SF Pro Text","PingFang SC","Helvetica Neue",sans-serif;
-    background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; }
-  #app { max-width:520px; margin:0 auto; min-height:100%; background:var(--bg);
+    background:linear-gradient(135deg,#EDF2FF 0%,#F5EFFE 50%,#EDF7EF 100%) fixed;
+    background:linear-gradient(135deg,#EDF2FF 0%,#F5EFFE 50%,#EDF7EF 100%);
+    background-attachment:fixed;
+    color:var(--ink); -webkit-font-smoothing:antialiased; }
+  body.on-entry { background:linear-gradient(135deg,#E3EDFF 0%,#F3E9FF 50%,#E8F5E9 100%); }
+  #app { max-width:520px; margin:0 auto; min-height:100%; background:transparent;
     display:flex; flex-direction:column; position:relative; }
   .view { flex:1; padding:20px 18px 96px; display:none; }
   .view.on { display:block; animation:fade .25s ease; }
   @keyframes fade { from { opacity:0; transform:translateY(6px);} to { opacity:1; transform:none;} }
   .card { background:var(--card); border-radius:20px; box-shadow:0 2px 14px rgba(0,0,0,.05); }
+  /* 毛玻璃卡：全站统一 */
+  .gcard { background:var(--glass); backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid var(--glass-brd); border-radius:22px; box-shadow:var(--glass-sh); }
+  /* 可点卡片的悬浮效果（仅鼠标设备） */
+  @media (hover:hover) {
+    .ghover { transition:transform .18s ease, box-shadow .18s ease; cursor:pointer; }
+    .ghover:hover { transform:translateY(-4px); box-shadow:var(--glass-sh-h); }
+    .ghover:active { transform:translateY(-1px) scale(.99); }
+  }
   .sec { font-size:13px; font-weight:600; color:var(--sub); margin:22px 4px 10px; letter-spacing:1px; }
 
   /* 首页 */
@@ -59,8 +82,8 @@
 
   /* 底部导航 */
   .tabbar { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:520px;
-    background:rgba(255,255,255,.92); -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px);
-    border-top:1px solid var(--hair); display:flex; padding:8px 0 calc(20px + env(safe-area-inset-bottom)); z-index:50; }
+    background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(24px) saturate(180%); backdrop-filter:blur(24px) saturate(180%);
+    border-top:1px solid rgba(255,255,255,.6); display:flex; padding:8px 0 calc(20px + env(safe-area-inset-bottom)); z-index:50; }
   .tabbar span { flex:1; text-align:center; font-size:10px; color:var(--sub); cursor:pointer; }
   .tabbar span i { display:block; font-size:22px; font-style:normal; margin-bottom:2px; }
   .tabbar span.on { color:var(--blue); }
@@ -68,7 +91,7 @@
     font-size:10px; min-width:17px; height:17px; line-height:17px; border-radius:9px; padding:0 4px; font-weight:700; }
 
   /* 游戏 */
-  #gameView { position:fixed; inset:0; background:var(--bg); z-index:100; display:none;
+  #gameView { position:fixed; inset:0; background:linear-gradient(135deg,#EDF2FF 0%,#F5EFFE 50%,#EDF7EF 100%); z-index:100; display:none;
     flex-direction:column; max-width:520px; margin:0 auto; }
   #gameView.on { display:flex; }
   .g-top { display:flex; align-items:center; gap:12px; padding:calc(14px + env(safe-area-inset-top)) 18px 6px; }
@@ -226,10 +249,21 @@
 
   /* ---------- 横屏：电脑 / iPad 版 ---------- */
   @media (min-width:768px) {
-    #app { max-width:1180px; flex-direction:row; }
+    #app { max-width:1024px; flex-direction:column; }
     .tabbar { display:none; }
-    .sidebar { display:flex; width:208px; flex:none; background:#fff; border-right:1px solid var(--hair);
-      flex-direction:column; padding:30px 14px 24px; gap:4px; position:sticky; top:0; height:100vh; }
+    /* 英语+护理：统一底部 TabBar（桌面居中，宽度适配） */
+    body.space-en .tabbar, body.space-nurs .tabbar { display:flex; max-width:1024px; }
+    body.space-en .view, body.space-nurs .view { padding:28px 40px 110px; }
+    /* 侧边栏已停用（保留样式备用） */
+    .sidebar { display:none !important; }
+    /* 桌面端网格：更多列 */
+    #homeQuick { grid-template-columns:repeat(4, 1fr) !important; }
+    #practiceModes { grid-template-columns:repeat(4, 1fr) !important; }
+    .nurs-mod { grid-template-columns:repeat(5, 1fr) !important; }
+    /* 首页 Hero 桌面端：更宽敞 */
+    #enTodayCockpit .gcard { padding:28px 32px !important; }
+    /* 练习页双卡片：桌面端更宽 */
+    #v-practice > div[style*="grid-template-columns:1fr 1fr"] { max-width:600px; }
     .sidebar .brand { font-size:24px; font-weight:800; letter-spacing:-.5px; padding:0 14px 20px; color:var(--ink); }
     .sidebar span { display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px;
       font-size:15px; color:var(--sub); cursor:pointer; }
@@ -268,6 +302,9 @@
   .space-seg { display:flex; background:#EFEFF4; border-radius:12px; padding:3px; }
   .lang-toggle { border:1px solid var(--hair); background:#fff; border-radius:20px; padding:6px 14px; font-size:13px; font-weight:700; color:var(--blue); cursor:pointer; flex:none; }
   .lang-toggle:active { transform:scale(.96); }
+  .gsyncBtn { border:1px solid var(--hair); background:#fff; border-radius:20px; padding:9px 18px; font-size:15px; font-weight:700; color:var(--blue); cursor:pointer; flex:none; }
+  .gsyncBtn:active { transform:scale(.96); }
+  .gsyncBtn.syncing { opacity:.55; pointer-events:none; }
   .sidebar em[data-nt], .tabbar em[data-nt] { font-style:normal; }
   .space-seg button { border:none; background:transparent; padding:7px 22px; font-size:14px;
     border-radius:9px; color:var(--sub); cursor:pointer; font-weight:600; }
@@ -299,55 +336,122 @@
   .term-flip .z { font-size:17px; color:var(--sub); margin-top:12px; line-height:1.7; }
   .nurs-prog { height:8px; background:#EFEFF4; border-radius:4px; overflow:hidden; margin-top:8px; }
   .nurs-prog i { display:block; height:100%; background:var(--blue); border-radius:4px; }
+  /* 学习时完全隐藏底部栏（用户要求：做题/闪卡时不允许出现） */
+  body.hide-tabbar .tabbar { display:none !important; }
+  /* 入口选择页：突出毛玻璃质感 */
+  body.on-entry { background:linear-gradient(135deg,#E3EDFF 0%,#F3E9FF 50%,#E8F5E9 100%); }
+  body.on-entry .sidebar { display:none !important; }
+  body.on-entry .tabbar { display:none !important; }
+  body.on-entry #app { max-width:640px; margin:0 auto; background:transparent; }
+  body.on-entry #v-entry { background:transparent; }
+  body.on-entry #v-entry.on { flex:1; width:100%; }
+  #v-entry { display:none; align-items:center; justify-content:center; min-height:80vh;
+    background:linear-gradient(135deg,#E3EDFF 0%,#F3E9FF 50%,#E8F5E9 100%); }
+  #v-entry.on { display:flex; }
+  .entry-wrap { text-align:center; padding:40px 24px; max-width:640px; width:100%; }
+  .entry-greet { font-size:32px; font-weight:800; letter-spacing:.5px; margin-bottom:10px; color:#1C1C1E; }
+  .entry-sub { font-size:15px; color:#636366; margin-bottom:44px; }
+  .entry-cards { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .entry-card { border-radius:28px; padding:56px 24px; cursor:pointer;
+    background:rgba(255,255,255,.45); backdrop-filter:blur(30px) saturate(180%);
+    -webkit-backdrop-filter:blur(30px) saturate(180%);
+    border:1px solid rgba(255,255,255,.6);
+    box-shadow:0 8px 32px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.8);
+    transition:transform .15s, box-shadow .15s; }
+  .entry-card:active { transform:scale(.97); }
+  .entry-card:hover { box-shadow:0 12px 40px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.9); }
+  .entry-icon { font-size:56px; margin-bottom:20px; font-weight:800; color:#007AFF; }
+  .entry-title { font-size:22px; font-weight:700; margin-bottom:8px; color:#1C1C1E; }
+  .entry-desc { font-size:13px; color:#636366; }
+  @media (max-width:380px){ .entry-cards { grid-template-columns:1fr; } }
 </style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+<script>try{var _sp=localStorage.getItem("lexi_space");document.body.classList.add(_sp==="nurs"?"space-nurs":"space-en");document.body.classList.add("on-entry");}catch(e){document.body.classList.add("space-en","on-entry");}</script>
 <div id="app">
-  <!-- 空间切换器：英语 | 护理预科 -->
-  <div id="spaceBar">
-    <div class="space-seg">
-      <button data-sp="en" class="on" id="spEnTop">英语</button>
-      <button data-sp="nurs" id="spNursTop">护理预科</button>
+  <!-- 入口选择页 -->
+  <div class="view on" id="v-entry">
+    <div class="entry-wrap">
+      <div class="entry-greet">今天学什么？</div>
+      <div class="entry-sub">选择一个学习空间开始</div>
+      <div class="entry-cards">
+        <div class="entry-card" id="entryEn">
+          <div class="entry-icon">Aa</div>
+          <div class="entry-title">英语学习</div>
+          <div class="entry-desc">单词 · 句子 · 短文</div>
+        </div>
+        <div class="entry-card" id="entryNurs">
+          <div class="entry-icon">⚕</div>
+          <div class="entry-title">护理预科</div>
+          <div class="entry-desc">BIOL 235 · 解剖生理</div>
+        </div>
+        <div class="entry-card" id="entryKids" style="grid-column:1/-1;padding:36px 24px;background:linear-gradient(135deg,#FFE9F3,#E3F2FF 55%,#FFF6DB);">
+          <div class="entry-icon">🌈</div>
+          <div class="entry-title">儿童乐园</div>
+          <div class="entry-desc">英语 · 数学 · 认字 · 海怪朋友</div>
+        </div>
+      </div>
     </div>
   </div>
+  <!-- 儿童乐园 -->
+  <div class="view" id="v-kids"></div>
   <!-- 横屏侧边导航（≥768px 显示） -->
   <nav class="sidebar">
-    <div class="brand">Lexi</div>
-    <div class="space-seg side-space">
-      <button data-sp="en" class="on" id="spEnSide">英语</button>
-      <button data-sp="nurs" id="spNursSide">护理预科</button>
-    </div>
-    <span class="on sp-en" data-v="v-home"><i>◉</i>单词</span>
-    <span class="sp-en" data-v="v-sen"><i>◈</i>句子</span>
-    <span class="sp-en" data-v="v-read"><i>❝</i>短文</span>
     <span class="sp-nurs" data-v="v-nurs" style="display:none"><i>🏠</i><em data-nt="nav_today">今日</em></span>
     <span class="sp-nurs" data-v="v-courses" style="display:none"><i>📚</i><em data-nt="nav_courses">课程</em></span>
     <span class="sp-nurs" data-v="v-learn" style="display:none"><i>🧠</i><em data-nt="nav_learn">学习</em></span>
     <span class="sp-nurs" data-v="v-progress" style="display:none"><i>📊</i><em data-nt="nav_progress">进度</em></span>
     <span class="sp-nurs" data-v="v-wrong" style="display:none;position:relative"><i>❌</i><em data-nt="nav_mistakes">错题</em><span class="badge" id="nursWrongBadge" style="display:none"></span></span>
-    <span class="sp-en" data-v="v-wrong"><i>▤</i>错题本</span>
-    <span data-v="v-set"><i>⚙</i><em data-nt="nav_settings">设置</em></span>
+    <span data-v="v-set" class="sp-nurs" style="display:none"><i>⚙</i><em data-nt="nav_settings">设置</em></span>
+    <span id="sideSwitch"><i>⇄</i>切换空间</span>
     <div class="side-foot" id="sideStreak"></div>
   </nav>
 
   <!-- 学习首页 -->
-  <div class="view on" id="v-home">
-    <div class="hello" id="helloDate"></div>
+  <div class="view" id="v-home">
+    <div style="font-size:28px;font-weight:800;letter-spacing:-.5px;margin:8px 0 16px">首页</div>
     <div id="enTodayCockpit"></div>
-    <div class="title-row">
-      <div class="big-title">学点吧</div>
-      <div class="diff-mini chips" id="diffChips"></div>
+    <div id="todayPhases" style="display:none"></div>
+    <div id="enEarBanner" class="gcard ghover" style="margin-top:14px;padding:18px 20px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(255,243,224,.85),rgba(255,232,214,.55));cursor:pointer">
+      <div style="font-size:34px">🎧</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:16px;font-weight:800;color:#1C1C1E">磨耳朵 · 英语</div>
+        <div style="font-size:12px;color:#8E8E93;margin-top:2px">单词 + 词组 + 句子 · 锁屏/息屏可播</div>
+      </div>
+      <div style="color:#C7C7CC;font-size:20px">›</div>
     </div>
-    <div class="hello" id="diffInfo" style="margin:2px 0 4px"></div>
-    <div><span class="streak-pill" id="streakPill"></span></div>
+    <div style="font-size:20px;font-weight:700;margin:20px 4px 10px">快速练习</div>
+    <div id="homeQuick" style="display:grid;grid-template-columns:1fr 1fr;gap:12px"></div>
+  </div>
 
-    <div class="sec">学习库</div>
-    <div class="sec" style="font-size:13px;color:var(--sub);margin-top:-8px">挑战模式</div>
-    <div id="modeList" class="mode-grid"></div>
-    <div class="sec">阶段测验</div>
-    <div class="quiz-row" id="quizRow"></div>
-    <div class="sec">单词分类</div>
-    <div class="cats" id="catGrid"></div>
+  <!-- 练习 -->
+  <div class="view" id="v-practice">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:8px 0 4px">
+      <div style="font-size:28px;font-weight:800;letter-spacing:-.5px">练习</div>
+      <div class="chips" id="diffChipsP" style="margin:0"></div>
+    </div>
+    <div class="hello" id="diffInfoP" style="margin:2px 4px 12px;font-size:12px"></div>
+    <div style="font-size:20px;font-weight:700;margin:16px 4px 10px">挑战模式</div>
+    <div id="practiceModes" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px">
+      <div id="quizCard" class="gcard ghover" style="padding:20px 16px;text-align:center">
+        <div style="font-size:28px;margin-bottom:8px">📝</div>
+        <div style="font-size:15px;font-weight:700">阶段测验</div>
+        <div style="font-size:12px;color:#8E8E93;margin-top:4px" id="quizCardSub"></div>
+      </div>
+      <div id="catCard" class="gcard ghover" style="padding:20px 16px;text-align:center">
+        <div style="font-size:28px;margin-bottom:8px">📚</div>
+        <div style="font-size:15px;font-weight:700">单词分类</div>
+        <div style="font-size:12px;color:#8E8E93;margin-top:4px" id="catCardSub"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 我的 -->
+  <div class="view" id="v-mine">
+    <div style="font-size:28px;font-weight:800;letter-spacing:-.5px;margin:8px 0 16px">我的</div>
+    <div id="mineBody"></div>
   </div>
 
   <!-- 短文 -->
@@ -364,9 +468,9 @@
 
   <!-- 护理预科 -->
   <div class="view" id="v-nurs">
-    <div style="display:flex;align-items:center;gap:10px">
-      <div class="big-title" style="margin:0"><span data-nt="nurs_title">护理预科</span> <span style="font-size:13px;color:var(--sub);font-weight:400" data-nt="nurs_subtitle">BIOL 235 · 95分计划</span></div>
-      <button class="nursLangBtn lang-toggle" style="margin-left:auto" title="切换语言 / Switch language">EN</button>
+    <div style="display:flex;align-items:center;gap:10px;margin:8px 0 16px">
+      <div style="font-size:28px;font-weight:800;letter-spacing:-.5px" data-nt="nurs_title">护理预科</div>
+      <button class="gsyncBtn" style="margin-left:auto" title="Google 云同步">☁️ 同步</button><button class="nursLangBtn lang-toggle" title="切换语言 / Switch language">EN</button>
     </div>
     <div class="hello" style="margin-top:4px" id="nursSub"></div>
     <div id="nursHome"></div>
@@ -375,8 +479,8 @@
   <!-- 课程 -->
   <div class="view" id="v-courses">
     <div style="display:flex;align-items:center;gap:10px">
-      <div class="big-title" style="margin:0"><span data-nt="nav_courses">课程</span> <span style="font-size:13px;color:var(--sub);font-weight:400">BIOL 235</span></div>
-      <button class="nursLangBtn lang-toggle" style="margin-left:auto" title="切换语言 / Switch language">EN</button>
+      <div style="font-size:28px;font-weight:800;letter-spacing:-.5px;margin:8px 0 16px" data-nt="nav_courses">课程</div>
+      <button class="gsyncBtn" style="margin-left:auto" title="Google 云同步">☁️ 同步</button><button class="nursLangBtn lang-toggle" title="切换语言 / Switch language">EN</button>
     </div>
     <div id="coursesBody"></div>
   </div>
@@ -384,8 +488,8 @@
   <!-- 学习（全部模块） -->
   <div class="view" id="v-learn">
     <div style="display:flex;align-items:center;gap:10px">
-      <div class="big-title" style="margin:0"><span data-nt="nav_learn">学习</span> <span style="font-size:13px;color:var(--sub);font-weight:400">Chapter 1</span></div>
-      <button class="nursLangBtn lang-toggle" style="margin-left:auto" title="切换语言 / Switch language">EN</button>
+      <div style="font-size:28px;font-weight:800;letter-spacing:-.5px;margin:8px 0 16px" data-nt="nav_learn">学习</div>
+      <button class="gsyncBtn" style="margin-left:auto" title="Google 云同步">☁️ 同步</button><button class="nursLangBtn lang-toggle" title="切换语言 / Switch language">EN</button>
     </div>
     <div id="learnBody"></div>
   </div>
@@ -394,17 +498,17 @@
   <div class="view" id="v-ear">
     <div style="display:flex;align-items:center;gap:10px">
       <div class="big-title" style="margin:0" data-nt="ear_title">磨耳朵 · 第一章</div>
-      <button class="nursLangBtn lang-toggle" style="margin-left:auto" title="切换语言 / Switch language">EN</button>
+      <button class="gsyncBtn" style="margin-left:auto" title="Google 云同步">☁️ 同步</button><button class="nursLangBtn lang-toggle" title="切换语言 / Switch language">EN</button>
     </div>
     <div class="hello" style="margin-top:4px" data-nt="ear_sub">术语 + 句子循环播放 · 锁屏/息屏可播</div>
-    <div id="earBody"></div>
+    <div id="earBody" style="min-height:400px"></div>
   </div>
 
   <!-- 进度 -->
   <div class="view" id="v-progress">
     <div style="display:flex;align-items:center;gap:10px">
-      <div class="big-title" style="margin:0"><span data-nt="nav_progress">进度</span> <span style="font-size:13px;color:var(--sub);font-weight:400">BIOL 235 · 🎯 95%</span></div>
-      <button class="nursLangBtn lang-toggle" style="margin-left:auto" title="切换语言 / Switch language">EN</button>
+      <div style="font-size:28px;font-weight:800;letter-spacing:-.5px;margin:8px 0 16px" data-nt="nav_progress">进度</div>
+      <button class="gsyncBtn" style="margin-left:auto" title="Google 云同步">☁️ 同步</button><button class="nursLangBtn lang-toggle" title="切换语言 / Switch language">EN</button>
     </div>
     <div id="progressBody"></div>
   </div>
@@ -413,7 +517,7 @@
   <div class="view" id="v-road">
     <div style="display:flex;align-items:center;gap:10px">
       <div class="big-title" style="margin:0" data-nt="road_title">考试路线图</div>
-      <button class="nursLangBtn lang-toggle" style="margin-left:auto" title="切换语言 / Switch language">EN</button>
+      <button class="gsyncBtn" style="margin-left:auto" title="Google 云同步">☁️ 同步</button><button class="nursLangBtn lang-toggle" title="切换语言 / Switch language">EN</button>
     </div>
     <div class="hello" style="margin-top:4px" data-nt="road_sub">官方 LMS 顺序 · 按此节奏备考</div>
     <div id="roadBody"></div>
@@ -423,7 +527,7 @@
   <div class="view" id="v-daily">
     <div style="display:flex;align-items:center;gap:10px">
       <div class="big-title" style="margin:0" data-nt="nav_daily">每日练习</div>
-      <button class="nursLangBtn lang-toggle" style="margin-left:auto" title="切换语言 / Switch language">EN</button>
+      <button class="gsyncBtn" style="margin-left:auto" title="Google 云同步">☁️ 同步</button><button class="nursLangBtn lang-toggle" title="切换语言 / Switch language">EN</button>
     </div>
     <div class="hello" style="margin-top:4px" data-nt="daily_sub">120 分钟课程系统 · 自动安排</div>
     <div id="dailyBody"></div>
@@ -432,8 +536,8 @@
   <!-- 错题本 -->
   <div class="view" id="v-wrong">
     <div style="display:flex;align-items:center;gap:10px">
-      <div class="big-title" style="margin:0" data-nt="nav_mistakes">错题本</div>
-      <button class="nursLangBtn lang-toggle" style="margin-left:auto" title="切换语言 / Switch language">EN</button>
+      <div style="font-size:28px;font-weight:800;letter-spacing:-.5px;margin:8px 0 16px" data-nt="nav_mistakes">错题本</div>
+      <button class="gsyncBtn" style="margin-left:auto" title="Google 云同步">☁️ 同步</button><button class="nursLangBtn lang-toggle" title="切换语言 / Switch language">EN</button>
     </div>
     <div class="hello" style="margin-top:4px" data-nt="wrong_sub">答错自动收录 · 答对后移除</div>
     <div id="wrongNurs" style="display:none"></div>
@@ -459,7 +563,7 @@
   <div class="view" id="v-set">
     <div style="display:flex;align-items:center;gap:10px">
       <div class="big-title" style="margin:0" data-nt="nav_settings">设置</div>
-      <button class="nursLangBtn lang-toggle" style="margin-left:auto" title="切换语言 / Switch language">EN</button>
+      <button class="gsyncBtn" style="margin-left:auto" title="Google 云同步">☁️ 同步</button><button class="nursLangBtn lang-toggle" title="切换语言 / Switch language">EN</button>
     </div>
     <div class="sec" data-nt="set_learn">学习</div>
     <div class="set-row card"><span data-nt="set_daily_goal">每日新词目标</span>
@@ -483,8 +587,20 @@
     <div class="set-row card" id="backupBtn" style="cursor:pointer; justify-content:center" data-nt="set_backup">📥 导出备份 (JSON)</div>
     <div class="set-row card" id="restoreBtn" style="cursor:pointer; justify-content:center" data-nt="set_restore">📤 导入备份</div>
     <input type="file" id="restoreFile" accept=".json" style="display:none">
+    <div class="sec">🤖 AI 对话</div>
+    <div class="card" style="padding:14px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:8px">Gemini API Key</div>
+      <div style="font-size:12px;color:var(--sub);margin-bottom:10px">填入后 AI 对话用真 AI 回复，不填则用内置规则。Key 只存本机。<br><a href="https://aistudio.google.com" target="_blank" style="color:var(--blue)">去 AI Studio 免费获取 →</a></div>
+      <div style="display:flex;gap:8px">
+        <input id="gemKeyInput" type="password" placeholder="粘贴你的 API Key" style="flex:1;padding:10px 12px;border-radius:10px;border:1px solid rgba(0,0,0,.12);font-size:13px;background:rgba(255,255,255,.8)">
+        <button id="gemKeySave" style="padding:10px 16px;border-radius:10px;border:none;background:#007AFF;color:#fff;font-size:13px;font-weight:700;cursor:pointer">保存</button>
+      </div>
+      <div id="gemKeyStatus" style="font-size:12px;margin-top:8px;color:var(--sub)"></div>
+    </div>
+    <div class="sec">☁️ 云同步</div>
+    <div class="card" id="gSyncCard" style="padding:14px"><div id="gSyncBody" style="font-size:14px;color:var(--sub)">加载中…</div></div>
     <div class="set-row card" id="resetBtn" style="color:#FF3B30; cursor:pointer; justify-content:center" data-nt="set_reset">清除全部学习记录</div>
-    <div class="hello" style="margin-top:16px; text-align:center" data-nt="set_footer">Lexi v2 · 本地离线运行 · 数据保存在本机</div>
+    <div class="hello" style="margin-top:16px; text-align:center" data-nt="set_footer">本地离线运行 · 数据保存在本机</div>
   </div>
 
   <!-- 游戏 -->
@@ -495,6 +611,7 @@
       <div class="g-score" id="gScore">0</div>
     </div>
     <div class="g-body" id="gBody"></div>
+    <div id="gamePhaseBar" style="display:flex;gap:8px;padding:12px 18px 20px;"></div>
   </div>
 
   <!-- 底部弹窗 -->
@@ -503,15 +620,12 @@
   </div>
 
   <div class="tabbar">
-    <span class="on sp-en" data-v="v-home"><i>◉</i>单词</span>
-    <span class="sp-en" data-v="v-sen"><i>◈</i>句子</span>
-    <span class="sp-en" data-v="v-read"><i>❝</i>短文</span>
+    <span class="on sp-en" data-v="v-home"><i>🏠</i>首页</span>
+    <span class="sp-en" data-v="v-practice"><i>🎯</i>练习</span>
+    <span class="sp-en" data-v="v-mine" style="position:relative"><i>👤</i>我的<span class="badge" id="wrongBadge" style="display:none"></span></span>
     <span class="sp-nurs" data-v="v-nurs" style="display:none"><i>🏠</i><em data-nt="nav_today">今日</em></span>
-    <span class="sp-nurs" data-v="v-learn" style="display:none"><i>🧠</i><em data-nt="nav_learn">学习</em></span>
-    <span class="sp-nurs" data-v="v-progress" style="display:none"><i>📊</i><em data-nt="nav_progress">进度</em></span>
-    <span class="sp-nurs" data-v="v-wrong" style="display:none;position:relative"><i>❌</i><em data-nt="nav_mistakes">错题</em><span class="badge" id="nursWrongBadgeM" style="display:none"></span></span>
-    <span class="sp-en" data-v="v-wrong" style="position:relative"><i>▤</i>错题本<span class="badge" id="wrongBadge" style="display:none"></span></span>
-    <span data-v="v-set"><i>⚙</i><em data-nt="nav_settings">设置</em></span>
+    <span class="sp-nurs" data-v="v-courses" style="display:none"><i>📚</i><em data-nt="nav_courses">课程</em></span>
+    <span class="sp-nurs" data-v="v-progress" style="display:none;position:relative"><i>📊</i><em data-nt="nav_progress">进度</em><span class="badge" id="nursWrongBadgeM" style="display:none"></span></span>
   </div>
 </div>
 <script src="data.js"></script>
@@ -520,7 +634,10 @@
 <script src="nursing/nurs_ear.js"></script>
 <script src="data2.js"></script>
 <script src="tiers.js"></script>
+<script src="nce1.js"></script>
 <script src="passages.js"></script>
+<script src="kids_data.js"></script>
+<script src="kids.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
